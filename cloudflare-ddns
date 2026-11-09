@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Updates a Cloudflare A record with the current public IPv4 address.
+# Config (from /etc/cloudflare-ddns.env via systemd): CF_API_TOKEN, CF_ZONE_ID, CF_RECORD
+set -euo pipefail
+
+: "${CF_API_TOKEN:?CF_API_TOKEN is not set}"
+: "${CF_ZONE_ID:?CF_ZONE_ID is not set}"
+: "${CF_RECORD:?CF_RECORD is not set}"
+
+API="https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records"
+AUTH=(-H "Authorization: Bearer $CF_API_TOKEN")
+
+# Current public IPv4
+IP=$(curl -fsS -4 https://api.ipify.org)
+
+# Record id + currently published address
+RECORD_JSON=$(curl -fsS "${AUTH[@]}" "$API?type=A&name=$CF_RECORD")
+RECORD_ID=$(jq -r '.result[0].id // empty' <<<"$RECORD_JSON")
+CURRENT=$(jq -r '.result[0].content // empty' <<<"$RECORD_JSON")
+
+if [ -z "$RECORD_ID" ]; then
+    echo "Record $CF_RECORD introuvable / not found"
+    exit 1
+fi
+
+if [ "$CURRENT" = "$IP" ]; then
+    echo "IP inchangée : $IP"
+    exit 0
+fi
+
+curl -fsS -X PATCH "${AUTH[@]}" \
+  -H "Content-Type: application/json" \
+  "$API/$RECORD_ID" \
+  --data "{\"content\":\"$IP\"}" \
+  | jq -e '.success' >/dev/null
+
+echo "$CF_RECORD : $CURRENT -> $IP"
