@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # cloudflare-ddns installer: script + env file + systemd service + timer.
-# Interactive:      curl -fsSL https://raw.githubusercontent.com/OWNER/cloudflare-ddns/main/install.sh | sudo bash
+# Interactive:      curl -fsSL https://raw.githubusercontent.com/huntervcx/cloudflare-ddns/main/install.sh | sudo bash
 # Non-interactive:  curl -fsSL .../install.sh | sudo CF_API_TOKEN=... CF_RECORD=home.example.com bash
 set -euo pipefail
 
@@ -148,4 +148,4 @@ echo
 echo "Done. $CF_RECORD will be checked every $INTERVAL."
 echo "  Logs:    journalctl -fu cloudflare-ddns.service"
 echo "  Timer:   systemctl list-timers cloudflare-ddns.timer"
-echo "  Remove:  curl -fsSL https://raw.githubusercontent.com/OWNER/cloudflare-ddns/main/uninstall.sh | sudo bash"
+echo "  Remove:  curl -fsSL https://raw.githubusercontent.com/huntervcx/cloudflare-ddns/main/uninstall.sh | sudo bash"

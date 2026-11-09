@@ -1,12 +1,14 @@
 # cloudflare-ddns
 
+[🇫🇷 Version française](README.fr.md)
+
 Tiny Dynamic DNS for Cloudflare: a ~40-line Bash script plus a systemd timer that keeps an `A` record pointing at your current public IPv4.
 Un DDNS Cloudflare minimaliste : un script Bash et un timer systemd qui gardent un enregistrement `A` sur ton IPv4 publique actuelle.
 
 ## Install / Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/cloudflare-ddns/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/huntervcx/cloudflare-ddns/main/install.sh | sudo bash
 ```
 
 It asks for the record (e.g. `home.example.com`) and a Cloudflare API token, then:
@@ -19,7 +21,7 @@ It asks for the record (e.g. `home.example.com`) and a Cloudflare API token, the
 Non-interactive / sans questions :
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/cloudflare-ddns/main/install.sh | sudo CF_API_TOKEN='cfat_xxx' CF_RECORD='home.example.com' INTERVAL=10min bash
+curl -fsSL https://raw.githubusercontent.com/huntervcx/cloudflare-ddns/main/install.sh | sudo CF_API_TOKEN='cfat_xxx' CF_RECORD='home.example.com' INTERVAL=10min bash
 ```
 
 ## Cloudflare token
@@ -44,7 +46,7 @@ Expected logs / logs attendus : `home.example.com : 1.2.3.4 -> 203.0.113.42` on 
 ## Uninstall / Désinstaller
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/cloudflare-ddns/main/uninstall.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/huntervcx/cloudflare-ddns/main/uninstall.sh | sudo bash
 ```
 
 The DNS record in Cloudflare is left untouched.
