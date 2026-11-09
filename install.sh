@@ -84,12 +84,12 @@ RECORD_ID=$(jq -r '.result[0].id // empty' <<<"$RECORD_JSON")
 CURRENT=$(jq -r '.result[0].content // empty' <<<"$RECORD_JSON")
 
 if [ -z "$RECORD_ID" ]; then
-    echo "Record $CF_RECORD introuvable / not found"
+    echo "Record $CF_RECORD not found"
     exit 1
 fi
 
 if [ "$CURRENT" = "$IP" ]; then
-    echo "IP inchangée : $IP"
+    echo "IP unchanged: $IP"
     exit 0
 fi
 
